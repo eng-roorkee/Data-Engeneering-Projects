@@ -9,7 +9,7 @@ depends:
 
 materialization:
   type: table
-  strategy: truncate+insert
+  strategy: create+replace
 
 columns:
   - name: pickup_date
