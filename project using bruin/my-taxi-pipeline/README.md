@@ -365,24 +365,5 @@ bruin run ./pipeline/assets/ingestion/trips.py \
 
 
 
----
 
-## Key Commands Reference
-
-| Command | Purpose |
-|---------|---------|
-| `bruin init <template> <folder>` | Initialize a new project from a template |
-| `bruin validate <path>` | Check syntax, schemas, dependencies without running (fast!) |
-| `bruin run <path>` | Execute pipeline or asset |
-| `bruin run --downstream` | Run asset and all downstream assets |
-| `bruin run --full-refresh` | Truncate and rebuild from scratch |
-| `bruin run --only checks` | Run quality checks without asset execution |
-| `bruin query --connection <conn> --query "..."` | Execute ad-hoc queries |
-| `bruin lineage <path>` | View asset dependencies |
-| `bruin render <path>` | Show rendered template output |
-| `bruin format <path>` | Format code |
-| `bruin connections list` | List configured connections |
-| `bruin connections test --name <name>` | Test connection connectivity |
-
----
 
