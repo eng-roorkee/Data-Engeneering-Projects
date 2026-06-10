@@ -2,15 +2,6 @@
 
 This hands-on tutorial guides you through building a **complete NYC Taxi data pipeline** from scratch using Bruin - a unified CLI tool for data ingestion, transformation, orchestration, and governance.
 
-Checkout our [Zoomcamp Project Prize](https://getbruin.com/zoomcamp-project) to learn more about how you can win a free Claude subscription service.
-
-Please reach out to us via our [Slack Community](https://join.slack.com/t/bruindatacommunity/shared_invite/zt-3oaskee9f-YbvwEEdMgQ1elmKzqmIHTg) to ask questions, share feedback, or report issues.
-
-Register for [Bruin Cloud](https://cloud.getbruin.com/register) to deploy your pipelines: registration is free (no credit card required) and includes complimentary credits to get started.
-
-### YouTube Video Tutorial Playlist
-- [Video Tutorials Playlist](https://www.youtube.com/playlist?list=PLnRr-L-cuxO4lUUdkXV5YPHT5ZEcEeXQD)
-- [Bruin Core Concepts Playlist](https://www.youtube.com/playlist?list=PLnRr-L-cuxO72ws5jYS8oyKMWs-AosgdP)
 
 ## Learning Goals
 
@@ -57,22 +48,13 @@ zoomcamp/
             └── trips_report.sql            # Aggregation for analytics
 ```
 
-# Step-by-Step Tutorial
 
-This module introduces Bruin as a unified data platform that combines **data ingestion**, **transformation**, and **quality** into a single CLI tool. You will build an end-to-end NYC Taxi data pipeline from scratch.
 
 > **Prerequisites**: Familiarity with SQL, basic Python, and command-line tools. Prior exposure to orchestration and transformation concepts is helpful but not required.
 
 ---
 
 ## Part 1: What is a Data Platform?
-
-### Video Tutorial
-
-
-[![Bruin Core Concepts](https://img.youtube.com/vi/LzdcyheqpC0/hqdefault.jpg)](https://youtu.be/LzdcyheqpC0)
-
-[![Part 1: What is a Data Platform?](https://img.youtube.com/vi/f6vg7lGqZx0/hqdefault.jpg)](https://youtu.be/f6vg7lGqZx0)
 
 ### Learning Goals
 - Understand what a data platform is and why you need one
@@ -109,10 +91,6 @@ This module introduces Bruin as a unified data platform that combines **data ing
 
 ---
 
-## Part 2: Setting Up Your First Bruin Project
-
-### Video Tutorial
-[![Part 2: Setting Up Your First Bruin Project](https://img.youtube.com/vi/JJwHKSidX_c/hqdefault.jpg)](https://youtu.be/JJwHKSidX_c)
 
 ### Learning Goals
 - Install Bruin CLI
@@ -122,7 +100,6 @@ This module introduces Bruin as a unified data platform that combines **data ing
 
 ### 2.1 Installation
 
-> **Installation Order**: Install the **CLI first**, then the IDE extension. The extension depends on the CLI being available in your PATH.
 
 **Step 1: Install Bruin CLI**
 
@@ -146,9 +123,6 @@ If your terminal prints `To use the installed binaries, please restart the shell
 - Search: "Bruin" (publisher: bruin)
 - Install, then reload VS Code
 
-Please refer to the doc page for more details:
-- https://getbruin.com/docs/bruin/vscode-extension/overview
-- https://getbruin.com/docs/bruin/getting-started/features#vs-code-extension
 
 ### 2.2 Your First Pipeline with the Default Template
 
@@ -307,8 +281,6 @@ See the [Key Commands Reference](#key-commands-reference) for connection managem
 
 ## Part 3: End-to-End NYC Taxi ELT Pipeline
 
-### Video Tutorial
-[![Part 3: End-to-End NYC Taxi ELT Pipeline](https://img.youtube.com/vi/q0k_iz9kWsI/hqdefault.jpg)](https://youtu.be/q0k_iz9kWsI)
 
 > **Data Availability Note**: NYC Taxi & Limousine Commission (TLC) trip data is not available after November 2025. When selecting date ranges for your pipeline, use dates before December 2025.
 >
@@ -331,13 +303,7 @@ See the [Key Commands Reference](#key-commands-reference) for connection managem
 
 ### 3.1 Initialize the Zoomcamp Template
 
-Now that you understand the basics from Part 2, let's initialize the full NYC Taxi pipeline:
-
-```bash
-bruin init zoomcamp my-taxi-pipeline
-cd my-taxi-pipeline
-```
-
+Now that you understand the basics from Part 2, let's initialize 
 The generated structure follows the layered architecture shown in the [Pipeline Skeleton](#pipeline-skeleton) section above. Key differences from the default template:
 - **Layered structure**: Assets organized into `ingestion/`, `staging/`, and `reports/` folders
 - **Real-world data source**: Fetches actual NYC taxi data from public APIs
@@ -397,268 +363,7 @@ bruin run ./pipeline/assets/ingestion/trips.py \
   --var taxi_types='["yellow"]' \
   --downstream
 
-# Query your tables using `bruin query`
-# Docs: https://getbruin.com/docs/bruin/commands/query
-bruin query --connection duckdb-default --query "SELECT COUNT(*) FROM ingestion.trips"
 
-# Open DuckDB UI (useful for exploring tables interactively)
-# Requires DuckDB CLI installed locally.
-duckdb duckdb.db -ui
-
-# Check lineage to understand asset dependencies
-bruin lineage ./pipeline/assets/ingestion/trips.py
-```
-
----
-
-## Part 4: Data Engineering with AI Agent
-
-### Video Tutorial
-[![Part 4: Data Engineering with AI Agent](https://img.youtube.com/vi/224xH7h8OaQ/hqdefault.jpg)](https://youtu.be/224xH7h8OaQ)
-
-### Learning Goals
-- Set up Bruin MCP to extend AI assistants with Bruin context
-- Use an AI agent to build the entire end-to-end pipeline
-- Leverage AI for documentation lookup, code generation, and pipeline execution
-
-### 4.1 What is Bruin MCP?
-- MCP (Model Context Protocol) connects AI assistants to Bruin's capabilities
-- The AI gains access to Bruin documentation, commands, and your pipeline context
-- Supported in Cursor, Claude Code, and other MCP-compatible tools
-
-### 4.2 Setting Up Bruin MCP
-
-**Cursor IDE:**
-- Go to Cursor Settings → MCP & Integrations → Add Custom MCP
-- Add the Bruin MCP server configuration:
-  ```json
-  {
-    "mcpServers": {
-      "bruin": {
-        "command": "bruin",
-        "args": ["mcp"]
-      }
-    }
-  }
-  ```
-
-**Claude Code:**
-```bash
-claude mcp add bruin -- bruin mcp
-```
-
-Bruin MCP Docs: https://getbruin.com/docs/bruin/getting-started/bruin-mcp
-
-### 4.3 Building the Pipeline with AI
-- Ask the AI to help configure `.bruin.yml` and `pipeline.yml`
-- Request asset scaffolding: "Create a Python ingestion asset for NYC taxi data"
-- Get help with materialization: "What strategy should I use for incremental loads?"
-- Debug issues: "Why is my quality check failing?"
-- Execute commands: "Run the staging.trips asset with --full-refresh"
-
-### 4.4 Example Prompts
-
-**Questions about Bruin documentation:**
-- "How do I create a DuckDB connection in Bruin?"
-- "What does the time_interval materialization strategy do?"
-- "What materialization strategies does Bruin support?"
-
-**Commands to build or make changes to pipeline:**
-- "Write a Python asset that fetches data from this API endpoint"
-- "Generate the SQL for deduplicating trips using a composite key"
-- "Add a not_null quality check to the pickup_datetime column"
-
-**Commands to test and validate pipeline:**
-- "Validate the entire pipeline"
-- "Run the staging.trips asset with --full-refresh"
-- "Check the lineage for my reports.trips_report asset"
-
-**Commands to query and analyze the data:**
-- "Run a query to show row counts for all my tables"
-- "Query the reports table to show top 10 payment types by trip count"
-- "Show me the data schema for staging.trips"
-
-### 4.5 AI-Assisted Workflow
-
-**Recommended: Hybrid Approach**
-
-For the best learning experience, consider a hybrid approach where you do the initial setup yourself, then let AI help with more complex parts:
-
-1. **You do**: Install CLI, run `bruin init`, explore the generated files
-2. **AI helps**: Configure connections, explain materialization strategies
-3. **You do**: Create your first simple asset (e.g., the seed CSV)
-4. **AI helps**: Build the Python ingestion and complex SQL transformations
-5. **You do**: Run and validate, inspect the data
-6. **AI helps**: Debug issues, add quality checks, optimize
-
-This approach ensures you understand the fundamentals while leveraging AI for productivity.
-
-**Layer-by-Layer Prompts**
-
-Instead of building everything at once, progress through each layer:
-
-**Layer 1 - Configuration:**
-```text
-Help me configure my Bruin project:
-1. Set up `.bruin.yml` with a DuckDB connection named `duckdb-default`
-2. Configure `pipeline.yml` with name, schedule, and a `taxi_types` variable
-Reference: @pipeline/pipeline.yml
-```
-
-**Layer 2 - Ingestion:**
-```text
-Build the ingestion layer for NYC taxi data:
-1. Create the payment_lookup seed asset from the CSV
-2. Create the Python trips.py ingestion asset
-Use append strategy, handle the taxi_types variable, fetch from TLC endpoint.
-Reference: @pipeline/assets/ingestion/
-```
-
-**Layer 3 - Staging:**
-```text
-Build the staging layer to clean and deduplicate trips:
-1. Create staging/trips.sql with time_interval strategy
-2. Join with payment lookup, deduplicate using ROW_NUMBER
-3. Add quality checks for required columns
-Reference: @pipeline/assets/staging/
-```
-
-**Layer 4 - Reports:**
-```text
-Build the reports layer to aggregate data:
-1. Create reports/trips_report.sql with time_interval strategy
-2. Aggregate by date, taxi_type, payment_type
-3. Add quality checks for the aggregated metrics
-Reference: @pipeline/assets/reports/
-```
-
-**Full Pipeline Prompt**
-
-If you prefer to build everything at once, use this comprehensive prompt:
-```text
-Build an end-to-end NYC Taxi data pipeline using Bruin.
-
-Start with running `bruin init zoomcamp` to initialize the project.
-
-## Context
-- Project folder: @zoomcamp/pipeline
-- Reference docs: @zoomcamp/README.md
-- Use Bruin MCP tools for documentation lookup and command execution
-
-## Instructions
-
-### 1. Configuration (do this first)
-- Create `.bruin.yml` with a DuckDB connection named `duckdb-default`
-- Configure `pipeline.yml`: set name, schedule (monthly), start_date, default_connections, and the `taxi_types` variable (array of strings)
-
-### 2. Build Assets (follow TODOs in each file)
-
-NYC Taxi Raw Trip Source Details:
-- **URL**: `https://d37ci6vzurychx.cloudfront.net/trip-data/`
-- **Format**: Parquet files, one per taxi type per month
-- **Naming**: `<taxi_type>_tripdata_<year>-<month>.parquet`
-- **Examples**:
-  - `yellow_tripdata_2022-03.parquet`
-  - `green_tripdata_2025-01.parquet`
-- **Taxi Types**: `yellow` (default), `green`
-
-Build in this order, validating each with `bruin validate` before moving on:
-
-a) **pipeline/assets/ingestion/payment_lookup.asset.yml** - Seed asset to load CSV lookup table
-b) **pipeline/assets/ingestion/trips.py** - Python asset to fetch NYC taxi parquet data from TLC endpoint
-   - Use `taxi_types` variable and date range from BRUIN_START_DATE/BRUIN_END_DATE
-   - Add requirements.txt with: pandas, requests, pyarrow, python-dateutil
-   - Keep the data in its rawest format without any cleaning or transformations
-c) **pipeline/assets/staging/trips.sql** - SQL asset to clean, deduplicate (ROW_NUMBER), and enrich with payment lookup
-   - Use `time_interval` strategy with `pickup_datetime` as incremental_key
-d) **pipeline/assets/reports/trips_report.sql** - SQL asset to aggregate by date, taxi_type, payment_type
-   - Use `time_interval` strategy for consistency
-
-### 3. Validate & Run
-- Validate entire pipeline: `bruin validate ./pipeline/pipeline.yml`
-- Run with: `bruin run ./pipeline/pipeline.yml --full-refresh --start-date 2022-01-01 --end-date 2022-02-01`
-- For faster testing, use `--var 'taxi_types=["yellow"]'` (skip green taxis)
-- Note: Start with 1-3 months for development; run full backfill once complete
-
-### 4. Verify Results
-- Check row counts across all tables
-- Query the reports table to confirm aggregations look correct
-- Verify all quality checks passed (24 checks expected)
-```
-
----
-
-## Part 5: Deploy to Cloud
-
-This part takes what you built locally and deploys it to the cloud. You'll learn to:
-- Run your pipeline on **Google BigQuery** instead of local DuckDB
-- Configure **Bruin Cloud** to schedule and run your pipelines automatically
-
-> **Note on SQL dialects**: BigQuery SQL is not identical to DuckDB SQL. Your pipeline structure stays the same, but you may need to update SQL syntax and types when switching engines.
-
-### 5.1 Create a GCP Project + BigQuery Datasets
-1. Create (or pick) a GCP project and enable the BigQuery API
-2. Create datasets that match your asset schemas (recommended for this module):
-   - `ingestion`
-   - `staging`
-   - `reports`
-
-### 5.2 Create Credentials (Choose One)
-- **Option A (recommended for local dev)**: Application Default Credentials (ADC)
-  - Install gcloud and authenticate: `gcloud auth application-default login`
-- **Option B**: Service account JSON (for CI/CD)
-  - Create a service account with BigQuery permissions and download the JSON key
-
-### 5.3 Add Connection to `.bruin.yml`
-```yaml
-environments:
-  default:
-    connections:
-      google_cloud_platform:
-        - name: "gcp-default"
-          project_id: "your-gcp-project-id"
-          location: "US" # or "EU", or your region
-          # Authentication options (choose one):
-          use_application_default_credentials: true
-          # service_account_file: "/path/to/service-account.json"
-          # service_account_json: |
-          #   { "type": "service_account", ... }
-```
-
-### 5.4 Update Pipeline & Assets
-- In `pipeline/pipeline.yml`: change `default_connections.duckdb` → `default_connections.bigquery`
-  - Example: `duckdb: duckdb-default` → `bigquery: gcp-default`
-- In SQL assets: change the `type` to BigQuery:
-  - `duckdb.sql` → `bq.sql`
-- In seed assets: change the `type` to BigQuery:
-  - `duckdb.seed` → `bq.seed`
-- In Python assets that use materialization: set/update `connection:` to `gcp-default`
-- Fix any SQL dialect issues:
-  - Data types can differ (e.g., `INTEGER` vs `INT64`, timestamp handling, quoting)
-  - Some functions/operators may need a BigQuery equivalent
-
-Docs:
-- BigQuery platform: https://getbruin.com/docs/bruin/platforms/bigquery
-- `.bruin.yml` secrets backend: https://getbruin.com/docs/bruin/secrets/bruinyml
-
-### 5.5 Deploy to Bruin Cloud
-
-Bruin Cloud provides managed infrastructure to schedule and run your pipelines automatically.
-
-**Sign Up and Connect Your Repository:**
-
-1. Go to [getbruin.com](https://getbruin.com) and click **Sign Up**
-2. Complete the onboarding flow
-3. When prompted to connect your GitHub repository, select the repo containing your Bruin pipelines
-4. Follow the remaining onboarding steps to complete setup
-
-**Enable and Run Your Pipeline:**
-
-1. From the Bruin Cloud home page, navigate to the **Pipelines** page
-2. Find your pipeline and click to enable it
-3. Create a run to execute your pipeline on Bruin Cloud infrastructure
-
-> **Free Tier**: The free signup does not require a credit card. There are limitations on the number of pipelines, server instance sizes, and other usage constraints. Check the Bruin Cloud documentation for current limits.
 
 ---
 
@@ -681,93 +386,3 @@ Bruin Cloud provides managed infrastructure to schedule and run your pipelines a
 
 ---
 
-## Best Practices & Tips
-
-### Materialization Strategies: When to Use What
-
-Bruin supports several materialization strategies. Choose based on your data characteristics:
-
-| Strategy | Use When | How It Works |
-|----------|----------|--------------|
-| `view` | Data should always reflect latest source | Creates a SQL view (no data stored) |
-| `table` | Small tables, full refresh each run | Drops and recreates the entire table |
-| `append` | Raw ingestion, event logs, immutable data | Inserts new rows without touching existing data |
-| `merge` | Need upsert behavior with a unique key | Updates existing rows, inserts new ones |
-| `time_interval` | Time-series data with incremental loads | Deletes rows in date range, then re-inserts |
-| `delete+insert` | Similar to merge but delete-first approach | Deletes matching rows, then inserts |
-
-**For this NYC Taxi pipeline:**
-- **Ingestion layer**: Use `append` because raw data arrives and duplicates are handled downstream
-- **Staging/Reports layers**: Use `time_interval` to allow re-processing specific date ranges without full refresh
-
-Docs: https://getbruin.com/docs/bruin/assets/materialization
-
-### Column Metadata: Required vs Optional Fields
-
-When defining columns in your assets, here's what's required vs optional:
-
-**Required fields:**
-- `name`: Column name (must match the actual column in your query)
-- `type`: Data type (e.g., `string`, `integer`, `timestamp`, `float`, `boolean`)
-
-**Optional fields (recommended for documentation and quality):**
-- `description`: Human-readable explanation of the column
-- `primary_key: true`: Marks column as part of the primary key (used for deduplication)
-- `checks`: Array of quality checks to run on this column
-
-**Example:**
-```yaml
-columns:
-  - name: pickup_datetime
-    type: timestamp
-    description: "When the trip started"
-    primary_key: true
-    checks:
-      - name: not_null
-  - name: fare_amount
-    type: float
-    description: "Base fare in USD"
-    checks:
-      - name: non_negative
-```
-
-Docs: https://getbruin.com/docs/bruin/assets/columns
-
-### Choosing the Right `incremental_key`
-
-When using `time_interval` strategy, the `incremental_key` determines which rows to delete and re-insert during each run.
-
-**Key principles:**
-1. **Use the same key across all assets** - If staging uses `pickup_datetime` as the incremental key, reports should too. This ensures data flows consistently through your pipeline.
-
-2. **Match the key to your data extraction logic** - In this example, NYC taxi data files are organized by month based on when rides started. Since each file contains rides where `pickup_datetime` falls in that month, `pickup_datetime` is the natural incremental key.
-
-3. **The key should be immutable** - Once a row is extracted, its incremental key value shouldn't change. Event timestamps (like `pickup_datetime`) are better than processing timestamps for this reason.
-
-### Deduplication Strategy
-
-Since there's no unique ID per row in taxi data, you'll need a **composite key** for deduplication:
-
-- Combine columns that together identify a unique trip
-- Example: `(pickup_datetime, dropoff_datetime, pickup_location_id, dropoff_location_id, fare_amount)`
-- Use these columns as `primary_key: true` in your column definitions
-- In SQL, deduplicate using `ROW_NUMBER()` or `QUALIFY` to keep one record per composite key
-
-### Quality-First Development
-
-- Add checks early, not as an afterthought
-- Use built-in checks: `not_null`, `unique`, `positive`, `non_negative`, `accepted_values`
-- Add custom checks for business-specific invariants
-
-### Project Organization
-
-- Keep assets in `pipeline/assets/`
-- Use schemas to organize layers: `ingestion.`, `staging.`, `reports.`
-- Put non-asset SQL in separate folders (`/analyses`, `/queries`)
-
-### Local Development
-
-- **Validate early and often** to catch errors before execution
-- **Use `--full-refresh`** for initial runs on new databases
-- **Query tables directly** to verify results after runs
-- **Check lineage** to understand the impact of changes before running
